@@ -1,0 +1,51 @@
+{
+  "name": "singapore-nric",
+  "version": "1.0.0",
+  "description": "Generate & Validate Singapore NRIC (National Registration Identity Card) Numbers",
+  "author": "@samliew",
+  "license": "MIT",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samliew/singapore-nric.git"
+  },
+  "keywords": [
+    "SG",
+    "SGP",
+    "Singapore",
+    "numbers",
+    "generate",
+    "generator",
+    "validate",
+    "validator",
+    "algorithm",
+    "NRIC",
+    "National Registration Identity Card"
+  ],
+  "bugs": {
+    "url": "https://github.com/samliew/singapore-nric/issues"
+  },
+  "homepage": "https://github.com/samliew/singapore-nric#readme",
+  "jest": {
+    "verbose": true,
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "ts",
+      "tsx"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ],
+    "transform": {}
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "jest": "^27.5.1"
+  }
+}
