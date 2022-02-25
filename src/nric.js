@@ -30,12 +30,12 @@ class NRIC {
     return this.#nric;
   }
 
-  get length() {
-    return this.#nric.length;
-  }
-
   get value() {
     return this.#nric;
+  }
+
+  get length() {
+    return this.#nric.length;
   }
 
   get firstchar() {
@@ -98,11 +98,13 @@ class NRIC {
   /**
    * Validate a single NRIC or an array of NRIC strings
    *
-   * @param {string|string[]} nric single or array of NRIC strings
+   * @param {string|string[]|NRIC|NRIC[]} nric (single or array of) NRIC strings or NRIC instances
    * @returns {boolean} true if all are valid NRICs
    */
   static Validate(value) {
-    return Array.isArray(value) ? value.every(item => new NRIC(item).isValid) : new NRIC(value).isValid;
+    return Array.isArray(value) ?
+      value.every(item => item instanceof NRIC ? item.isValid : new NRIC(item).isValid) :
+      (value instanceof NRIC ? value.isValid : new NRIC(value).isValid);
   }
 
   /**

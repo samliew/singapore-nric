@@ -17,14 +17,17 @@ describe('Static Generator', () => {
 
   it('can generate NRIC with set starting character', () => {
     const nric = Generate('M');
+
     expect(nric.firstchar).toEqual('M');
     expect(nric.isValid).toEqual(true);
 
     const nric2 = Generate('F');
+
     expect(nric2.firstchar).toEqual('F');
     expect(nric2.isValid).toEqual(true);
 
     const nric3 = Generate('G');
+
     expect(nric3.firstchar).toEqual('G');
     expect(nric3.isValid).toEqual(true);
   });

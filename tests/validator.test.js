@@ -7,11 +7,21 @@ const { Validate } = NRIC;
 describe('Static Validator', () => {
 
   it('should pass a single valid NRIC', () => {
+    // string
     expect(Validate('S1234567D')).toEqual(true);
+
+    // instance of class NRIC
+    const nric = new NRIC('S1234567D');
+    expect(Validate(nric)).toEqual(true);
   });
 
   it('should fail a single invalid NRIC', () => {
+    // string
     expect(Validate('S1234567A')).toEqual(false);
+
+    // instance of class NRIC
+    const nric = new NRIC('S1234567A');
+    expect(Validate(nric)).toEqual(false);
   });
 
   it('should pass an array of valid NRICs', () => {
@@ -28,7 +38,7 @@ describe('Static Validator', () => {
       'S0000004C',
       'S0000005A',
       'S0000006Z',
-      'S0000007H',
+      new NRIC('S0000007H'),
     ];
     expect(Validate(validItems)).toEqual(true);
   });
@@ -57,7 +67,7 @@ describe('Static Validator', () => {
       'T8890856A',
       'F8234009A',
       'G1166318A',
-      'M1134985A',
+      new NRIC('M1134985A'),
     ];
     expect(Validate(invalidItems)).toEqual(false);
   });

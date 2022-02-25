@@ -49,7 +49,7 @@ n.isValid;         // true
 ### `Validate( nric )`
 Validate a single NRIC, or an array of NRIC strings
 
-@param `{string|string[]} nric` - single or array of NRIC strings<br>
+@param `{string|string[]|NRIC|NRIC[]} nric` - (single or array of) NRIC strings or NRIC instances<br>
 @returns `{boolean}` - true if all are valid NRICs
 
 ```
@@ -61,7 +61,7 @@ NRIC.Validate([ 'S1234567D', 'S1234567D' ]);  // true
 Returns a random NRIC with valid checksum
 
 @param `{string} firstchar` - (optional) set first character<br>
-@returns `{string}` - NRIC number
+@returns `{NRIC}` - NRIC number
 
 ```
 NRIC.Generate();     // e.g.: 'S1234567D'
@@ -73,8 +73,12 @@ NRIC.Generate('M');  // e.g.: 'M1235467X'
 Generate an array of NRICs with valid checksum
 
 @param `{number} amount` - number to generate<br>
-@returns `{string[]}` - an array of NRIC numbers
+@returns `{NRIC[]}` - an array of NRIC numbers
 
 ```
 NRIC.GenerateMany(3);  // e.g.: [ 'S1234567D', 'S1234567D', 'S1234567D' ]
 ```
+
+## Further Examples
+
+See [tests](https://github.com/samliew/singapore-nric/tree/master/tests).
