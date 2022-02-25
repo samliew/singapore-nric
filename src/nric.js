@@ -1,71 +1,28 @@
 'use strict';
 
-export default class NRIC {
+/**
+ * A class for generating and validating Singapore NRIC numbers
+ *
+ * @typedef  {NRIC}    NRIC
+ * @property {string}  firstchar       first character
+ * @property {string}  identifier      last four alphanumeric characters
+ * @property {string}  checksum        checksum
+ * @property {boolean} isCorrectFormat format is valid
+ * @property {boolean} isValid         checksum is valid
+ */
+class NRIC {
 
   #nric;
 
   constructor(value = null) {
-    if (typeof value === 'string') {
+    if (value instanceof NRIC) {
+      this.#nric = NRIC.value;
+    }
+    else if (typeof value === 'string') {
       this.#nric = value.trim().toUpperCase();
     }
   }
 
-  get value() {
-    return this.#nric;
-  }
-
-  /**
-   * @summary Returns first character
-   * @returns {string}
-   */
-  get firstchar() {
-    return this.validFormat ? this.#nric.slice(0, 1) : null;
-  }
-
-  /**
-   * @summary Returns all the seven digits
-   * @returns {string}
-   */
-  get #digits() {
-    return this.validFormat ? this.#nric.slice(1, -1) : null;
-  }
-
-  /**
-   * @summary Returns last four digits
-   * @returns {string}
-   */
-  get identifiers() {
-    return this.validFormat ? this.#nric.slice(-4) : null;
-  }
-
-  /**
-   * @summary Returns checksum (last character)
-   * @returns {string}
-   */
-  get checksum() {
-    return this.validFormat ? this.#nric.slice(-1) : null;
-  }
-
-  /**
-   * @summary Checks if NRIC format is valid without validating checksum
-   * @returns {boolean}
-   */
-  get validFormat() {
-    return /^[STFGM]\d{7}[A-Z]$/.test(this.#nric);
-  }
-
-  /**
-   * @summary Returns if the NRIC is valid
-   * @returns {boolean}
-   */
-  get valid() {
-    return this.#validateChecksum();
-  }
-
-  /**
-   * @summary Returns the value of the NRIC without validation
-   * @returns {string}
-   */
   valueOf() {
     return this.#nric;
   }
@@ -73,13 +30,45 @@ export default class NRIC {
     return this.#nric;
   }
 
+  get length() {
+    return this.#nric.length;
+  }
+
+  get value() {
+    return this.#nric;
+  }
+
+  get firstchar() {
+    return this.isCorrectFormat ? this.#nric.slice(0, 1) : null;
+  }
+
+  get #digits() {
+    return this.isCorrectFormat ? this.#nric.slice(1, -1) : null;
+  }
+
+  get identifier() {
+    return this.isCorrectFormat ? this.#nric.slice(-4) : null;
+  }
+
+  get checksum() {
+    return this.isCorrectFormat ? this.#nric.slice(-1) : null;
+  }
+
+  get isCorrectFormat() {
+    return /^[STFGM]\d{7}[A-Z]$/.test(this.#nric);
+  }
+
+  get isValid() {
+    return this.#validateChecksum();
+  }
+
   /**
-   * @summary Returns a random NRIC with valid checksum
-   * 
+   * Returns a random NRIC with valid checksum
+   *
    * @param {string} firstchar first character of NRIC
-   * @returns {string}
+   * @returns {NRIC} NRIC number
    */
-  static generate(firstchar = null) {
+  static Generate(firstchar = null) {
 
     // If firstchar is not provided or invalid, generate a random one
     const getRandomFirstChar = () => 'STFGM'.split('').sort(() => 0.5 - Math.random()).pop();
@@ -92,30 +81,48 @@ export default class NRIC {
     const checksum = NRIC.#calculateChecksum(firstchar, digits);
 
     // Return combined string
-    return firstchar + digits + checksum;
+    return new NRIC(firstchar + digits + checksum);
   }
 
   /**
-   * @summary Validates the NRIC format and checksum
-   * @returns {boolean}
+   * Generate an array of NRICs
+   *
+   * @param {number} amount number to generate
+   * @returns {NRIC[]} an array of NRIC numbers
+   */
+  static GenerateMany(amount = 1) {
+    if (isNaN(amount) || amount < 1) amount = 1;
+    return Array.from({ length: amount }, NRIC.Generate);
+  }
+
+  /**
+   * Validate a single NRIC or an array of NRIC strings
+   *
+   * @param {string|string[]} nric single or array of NRIC strings
+   * @returns {boolean} true if all are valid NRICs
+   */
+  static Validate(value) {
+    return Array.isArray(value) ? value.every(item => new NRIC(item).isValid) : new NRIC(value).isValid;
+  }
+
+  /**
+   * Validates the NRIC format and checksum
+   * @returns {boolean} true if format and checksum is valid
    */
   #validateChecksum() {
-    const { validFormat, firstchar, checksum } = this;
+    const { isCorrectFormat, firstchar, checksum } = this;
     const digits = this.#digits;
 
     // Perform basic format check first
-    if (!validFormat) return false;
-
-    // Calculate checksum
-    const calculatedChecksum = NRIC.#calculateChecksum(firstchar, digits);
+    if (!isCorrectFormat) return false;
 
     // Valid if the checksum matches the calculated checksum
-    return checksum === calculatedChecksum;
+    return checksum === NRIC.#calculateChecksum(firstchar, digits);
   }
 
   /**
-   * @summary Calculates the NRIC checksum
-   * 
+   * Calculates the NRIC checksum
+   *
    * @param {string} firstchar first character of NRIC
    * @param {string} digits seven digits of NRIC number
    * @returns {boolean}
@@ -148,7 +155,7 @@ export default class NRIC {
   }
 
   /**
-   * @summary Get the checksum table based on the first character
+   * Get the checksum table based on the first character
    * @returns {string[]}
    */
   static #getChecksumTable = firstchar => {
@@ -165,3 +172,5 @@ export default class NRIC {
   };
 
 }
+
+export default NRIC;

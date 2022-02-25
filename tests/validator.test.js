@@ -1,8 +1,10 @@
-import { Validate } from '../src/validator';
+import NRIC from '../src/nric';
+
+const { Validate } = NRIC;
 
 /* globals describe, it, expect */
 
-describe('Validator', () => {
+describe('Static Validator', () => {
 
   it('should pass a single valid NRIC', () => {
     expect(Validate('S1234567D')).toEqual(true);

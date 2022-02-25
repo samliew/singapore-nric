@@ -22,14 +22,14 @@ describe('NRIC', () => {
   });
 
   it('can get the last four alphanumeric characters', () => {
-    expect(nric.identifiers).toEqual('567D');
+    expect(nric.identifier).toEqual('567D');
   });
 
   it('should not return values if invalid format', () => {
     const nric = new NRIC('123456');
     expect(nric.firstchar).toEqual(null);
     expect(nric.checksum).toEqual(null);
-    expect(nric.identifiers).toEqual(null);
+    expect(nric.identifier).toEqual(null);
   });
 
   it('validFormat should pass valid formats', () => {
@@ -42,7 +42,7 @@ describe('NRIC', () => {
       'M1234567A',
     ];
     items.forEach(item => {
-      expect(new NRIC(item).validFormat).toEqual(true);
+      expect(new NRIC(item).isCorrectFormat).toEqual(true);
     });
   });
 
@@ -58,7 +58,7 @@ describe('NRIC', () => {
       []
     ];
     invalidTypes.forEach(item => {
-      expect(new NRIC(item).validFormat).toEqual(false);
+      expect(new NRIC(item).isCorrectFormat).toEqual(false);
     });
 
     // Test invalid string formats
@@ -77,7 +77,7 @@ describe('NRIC', () => {
       '!@#$%^&*()_+-=\\/[]{};:?',
     ];
     items.forEach(item => {
-      expect(new NRIC(item).validFormat).toEqual(false);
+      expect(new NRIC(item).isCorrectFormat).toEqual(false);
     });
   });
 
@@ -100,8 +100,8 @@ describe('NRIC', () => {
     ];
     items.forEach(item => {
       const nric = new NRIC(item);
-      expect(nric.validFormat).toEqual(true);
-      expect(nric.valid).toEqual(true);
+      expect(nric.isCorrectFormat).toEqual(true);
+      expect(nric.isValid).toEqual(true);
     });
   });
 
@@ -117,8 +117,8 @@ describe('NRIC', () => {
     ];
     items.forEach(item => {
       const nric = new NRIC(item);
-      expect(nric.validFormat).toEqual(true);
-      expect(nric.valid).toEqual(false);
+      expect(nric.isCorrectFormat).toEqual(true);
+      expect(nric.isValid).toEqual(false);
     });
   });
 
