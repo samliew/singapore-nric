@@ -64,8 +64,8 @@ Returns a random NRIC with valid checksum
 @returns `{NRIC}` - NRIC number
 
 ```
-NRIC.Generate();     // e.g.: 'S1234567D'
-NRIC.Generate('M');  // e.g.: 'M1235467X'
+NRIC.Generate().value;     // e.g.: 'S1234567D'
+NRIC.Generate('M').value;  // e.g.: 'M1235467X'
 ```
 
 
@@ -76,7 +76,8 @@ Generate an array of NRICs with valid checksum
 @returns `{NRIC[]}` - an array of NRIC numbers
 
 ```
-NRIC.GenerateMany(3);  // e.g.: [ 'S1234567D', 'S1234567D', 'S1234567D' ]
+const nrics = NRIC.GenerateMany(3);  // e.g.: [ NRIC, NRIC, NRIC ]
+nrics[0].value; // e.g.: 'S1234567D'
 ```
 
 ## Further Examples

@@ -25,12 +25,14 @@ describe('NRIC', () => {
     expect(nric.identifier).toEqual('567D');
   });
 
+
   it('should not return values if invalid format', () => {
     const nric = new NRIC('123456');
     expect(nric.firstchar).toEqual(null);
     expect(nric.checksum).toEqual(null);
     expect(nric.identifier).toEqual(null);
   });
+
 
   it('validFormat should pass valid formats', () => {
     const items = [
@@ -45,6 +47,7 @@ describe('NRIC', () => {
       expect(new NRIC(item).isCorrectFormat).toEqual(true);
     });
   });
+
 
   it('validFormat should fail invalid formats', () => {
 
@@ -81,6 +84,7 @@ describe('NRIC', () => {
     });
   });
 
+
   it('should pass valid NRICs', () => {
     // Correct format and checksum
     const items = [
@@ -104,6 +108,7 @@ describe('NRIC', () => {
       expect(nric.isValid).toEqual(true);
     });
   });
+
 
   it('should fail invalid NRICs', () => {
     // Correct format but invalid checksum

@@ -6,6 +6,7 @@ const { Validate } = NRIC;
 
 describe('Static Validator', () => {
 
+
   it('should pass a single valid NRIC', () => {
     // string
     expect(Validate('S1234567D')).toEqual(true);
@@ -15,6 +16,7 @@ describe('Static Validator', () => {
     expect(Validate(nric)).toEqual(true);
   });
 
+
   it('should fail a single invalid NRIC', () => {
     // string
     expect(Validate('S1234567A')).toEqual(false);
@@ -23,6 +25,7 @@ describe('Static Validator', () => {
     const nric = new NRIC('S1234567A');
     expect(Validate(nric)).toEqual(false);
   });
+
 
   it('should pass an array of valid NRICs', () => {
     const validItems = [
@@ -42,6 +45,7 @@ describe('Static Validator', () => {
     ];
     expect(Validate(validItems)).toEqual(true);
   });
+
 
   it('should fail an array of invalid NRICs', () => {
     const invalidItems = [
