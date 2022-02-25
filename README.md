@@ -1,6 +1,6 @@
 # singapore-nric
 
-![GitHub](https://img.shields.io/github/license/samliew/singapore-nric?color=blue)
+[![GitHub](https://img.shields.io/github/license/samliew/singapore-nric?color=blue)](https://github.com/samliew/singapore-nric/blob/master/LICENCE)
 
 A [Singapore NRIC](https://en.wikipedia.org/wiki/National_Registration_Identity_Card) Validator & Generator class, by [Samuel Liew](https://github.com/samliew)
 
