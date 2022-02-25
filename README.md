@@ -1,6 +1,10 @@
 # singapore-nric
 
-A Singapore NRIC Validator & Generator class, by Samuel Liew
+![GitHub](https://img.shields.io/github/license/samliew/singapore-nric?color=blue)
+
+A [Singapore NRIC](https://en.wikipedia.org/wiki/National_Registration_Identity_Card) Validator & Generator class, by [Samuel Liew](https://github.com/samliew)
+
+Looking to do it manually instead? Use these tools on my website: [generate](https://samliew.com/nric-generator) or [validate](https://samliew.com/singapore-nric-validator).
 
 <br>
 
