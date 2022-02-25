@@ -2,7 +2,10 @@
   "name": "singapore-nric",
   "version": "1.0.0",
   "description": "Generate & Validate Singapore NRIC (National Registration Identity Card) Numbers",
-  "author": "@samliew",
+  "author": {
+    "name": "Samuel Liew",
+    "url": "https://github.com/samliew"
+  },
   "license": "MIT",
   "type": "module",
   "main": "src/index.js",
