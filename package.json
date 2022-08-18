@@ -1,6 +1,6 @@
 {
   "name": "singapore-nric",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Generate & Validate Singapore NRIC (National Registration Identity Card) Numbers",
   "author": {
     "name": "Samuel Liew",
