@@ -23,3 +23,6 @@ cache
 
 # Debug folder
 debug/
+
+# Dist after compiling ts
+dist

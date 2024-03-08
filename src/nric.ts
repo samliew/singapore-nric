@@ -1,5 +1,7 @@
 'use strict';
 
+import {Checksum, Firstchar} from "./types";
+
 /**
  * A class for generating and validating Singapore NRIC numbers
  *
@@ -12,11 +14,13 @@
  */
 class NRIC {
 
-  #nric;
+  #nric: string;
 
-  constructor(value = null) {
+  constructor(value: NRIC |string| null | undefined = null) {
+    this.#nric = ''; // Initialize #nric property
+
     if (value instanceof NRIC) {
-      this.#nric = NRIC.value;
+      this.#nric = NRIC.toString();
     }
     else if (typeof value === 'string') {
       this.#nric = value.trim().toUpperCase();
@@ -68,20 +72,20 @@ class NRIC {
    * @param {string} firstchar first character of NRIC
    * @returns {NRIC} NRIC number
    */
-  static Generate(firstchar = null) {
+  static Generate(firstchar: string | null = null) : NRIC{
 
     // If firstchar is not provided or invalid, generate a random one
-    const getRandomFirstChar = () => 'STFGM'.split('').sort(() => 0.5 - Math.random()).pop();
-    firstchar = /^[STFGM]$/i.test(firstchar) ? firstchar.toUpperCase() : getRandomFirstChar();
+    const getRandomFirstChar = () : Firstchar => 'STFGM'.split('').sort(() => 0.5 - Math.random()).pop() as Firstchar;
+    let computedFirstchar = (firstchar && /^[STFGM]$/i.test(firstchar)) ? (firstchar.toUpperCase() as Firstchar) : getRandomFirstChar();
 
     // Generate seven random digits
     const digits = Array.from({ length: 7 }, () => Math.floor(Math.random() * 10)).join('');
 
     // Calculate checksum
-    const checksum = NRIC.#calculateChecksum(firstchar, digits);
+    const checksum = NRIC.#calculateChecksum(computedFirstchar, digits);
 
     // Return combined string
-    return new NRIC(firstchar + digits + checksum);
+    return new NRIC(computedFirstchar + digits + checksum);
   }
 
   /**
@@ -90,18 +94,18 @@ class NRIC {
    * @param {number} amount number to generate
    * @returns {NRIC[]} an array of NRIC numbers
    */
-  static GenerateMany(amount = 1) {
-    if (isNaN(amount) || amount < 1) amount = 1;
+  static GenerateMany(amount: number | null = 1): NRIC[] {
+    if (!amount || isNaN(amount) || amount < 1) amount = 1;
     return Array.from({ length: amount }, NRIC.Generate);
   }
 
   /**
    * Validate a single NRIC or an array of NRIC strings
    *
-   * @param {string|string[]|NRIC|NRIC[]} nric (single or array of) NRIC strings or NRIC instances
+   * @param {string|NRIC|(string|NRIC)[]} value (single or array of) NRIC strings or NRIC instances
    * @returns {boolean} true if all are valid NRICs
    */
-  static Validate(value) {
+  static Validate(value: string | NRIC | (string| NRIC)[]): boolean {
     return Array.isArray(value) ?
       value.every(item => item instanceof NRIC ? item.isValid : new NRIC(item).isValid) :
       (value instanceof NRIC ? value.isValid : new NRIC(value).isValid);
@@ -111,7 +115,7 @@ class NRIC {
    * Validates the NRIC format and checksum
    * @returns {boolean} true if format and checksum is valid
    */
-  #validateChecksum() {
+  #validateChecksum(): boolean {
     const { isCorrectFormat, firstchar, checksum } = this;
     const digits = this.#digits;
 
@@ -119,20 +123,20 @@ class NRIC {
     if (!isCorrectFormat) return false;
 
     // Valid if the checksum matches the calculated checksum
-    return checksum === NRIC.#calculateChecksum(firstchar, digits);
+    return checksum === NRIC.#calculateChecksum(firstchar as Firstchar, digits as string);
   }
 
   /**
    * Calculates the NRIC checksum
    *
    * @param {string} firstchar first character of NRIC
-   * @param {string} digits seven digits of NRIC number
-   * @returns {boolean}
+   * @param {string} digitsStr seven digits of NRIC number
+   * @returns {Checksum}
    */
-  static #calculateChecksum(firstchar, digits) {
+  static #calculateChecksum(firstchar: Firstchar, digitsStr: string): Checksum {
 
     // Multiply each of the digits by the respective weights
-    digits = digits.split('').map(Number);
+    const digits: number[] = digitsStr.split('').map(Number);
     digits[0] *= 2;
     digits[1] *= 7;
     digits[2] *= 6;
@@ -158,9 +162,9 @@ class NRIC {
 
   /**
    * Get the checksum table based on the first character
-   * @returns {string[]}
+   * @returns {Checksum[]}
    */
-  static #getChecksumTable = firstchar => {
+  static #getChecksumTable = (firstchar: Firstchar): Checksum[] => {
     const checksums = {
       'ST': ['J', 'Z', 'I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A'],
       'FG': ['X', 'W', 'U', 'T', 'R', 'Q', 'P', 'N', 'M', 'L', 'K'],
@@ -168,9 +172,10 @@ class NRIC {
     };
 
     const key = Object.keys(checksums).filter(v => v.includes(firstchar));
-    if (!key) throw new Error(`Unable to find checksum table for "${firstchar}"`);
+    if (!key || !key.length) throw new Error(`Unable to find checksum table for "${firstchar}"`);
+    const lookupKey = key[0] as keyof typeof checksums;
 
-    return checksums[key];
+    return checksums[lookupKey] as Checksum[];
   };
 
 }
