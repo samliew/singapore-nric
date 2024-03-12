@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-import {Checksum, Firstchar} from "./types";
+import { Checksum, Firstchar } from "./types";
 
 /**
  * A class for generating and validating Singapore NRIC numbers
@@ -13,16 +13,15 @@ import {Checksum, Firstchar} from "./types";
  * @property {boolean} isValid         checksum is valid
  */
 class NRIC {
-
   #nric: string;
 
-  constructor(value: NRIC |string| null | undefined = null) {
-    this.#nric = ''; // Initialize #nric property
+  constructor(value: NRIC | string | null | undefined = null) {
+    this.#nric = ""; // Initialise #nric property
 
     if (value instanceof NRIC) {
       this.#nric = NRIC.toString();
     }
-    else if (typeof value === 'string') {
+    else if (typeof value === "string") {
       this.#nric = value.trim().toUpperCase();
     }
   }
@@ -72,14 +71,14 @@ class NRIC {
    * @param {string} firstchar first character of NRIC
    * @returns {NRIC} NRIC number
    */
-  static Generate(firstchar: string | null = null) : NRIC{
+  static Generate(firstchar: string | null = null): NRIC {
 
     // If firstchar is not provided or invalid, generate a random one
-    const getRandomFirstChar = () : Firstchar => 'STFGM'.split('').sort(() => 0.5 - Math.random()).pop() as Firstchar;
-    let computedFirstchar = (firstchar && /^[STFGM]$/i.test(firstchar)) ? (firstchar.toUpperCase() as Firstchar) : getRandomFirstChar();
+    const getRandomFirstChar = (): Firstchar => "STFGM".split("").sort(() => 0.5 - Math.random()).pop() as Firstchar;
+    let computedFirstchar = firstchar && /^[STFGM]$/i.test(firstchar) ? (firstchar.toUpperCase() as Firstchar) : getRandomFirstChar();
 
     // Generate seven random digits
-    const digits = Array.from({ length: 7 }, () => Math.floor(Math.random() * 10)).join('');
+    const digits = Array.from({ length: 7 }, () => Math.floor(Math.random() * 10)).join("");
 
     // Calculate checksum
     const checksum = NRIC.#calculateChecksum(computedFirstchar, digits);
@@ -136,7 +135,7 @@ class NRIC {
   static #calculateChecksum(firstchar: Firstchar, digitsStr: string): Checksum {
 
     // Multiply each of the digits by the respective weights
-    const digits: number[] = digitsStr.split('').map(Number);
+    const digits: number[] = digitsStr.split("").map(Number);
     digits[0] *= 2;
     digits[1] *= 7;
     digits[2] *= 6;
@@ -147,11 +146,11 @@ class NRIC {
 
     // Calculate total, offset based on first character, and modulus 11
     const weight = digits.reduce((a, b) => a + b);
-    const offset = (firstchar === 'T' || firstchar === 'G') ? 4 : (firstchar === 'M') ? 3 : 0;
+    const offset = firstchar === "T" || firstchar === "G" ? 4 : firstchar === "M" ? 3 : 0;
     let index = (offset + weight) % 11;
 
     // If firstchar is M, rotate the index
-    if (firstchar === 'M') index = 10 - index;
+    if (firstchar === "M") index = 10 - index;
 
     // Get the value of the index in the checksum array based on firstchar
     const table = NRIC.#getChecksumTable(firstchar);
@@ -166,13 +165,14 @@ class NRIC {
    */
   static #getChecksumTable = (firstchar: Firstchar): Checksum[] => {
     const checksums = {
-      'ST': ['J', 'Z', 'I', 'H', 'G', 'F', 'E', 'D', 'C', 'B', 'A'],
-      'FG': ['X', 'W', 'U', 'T', 'R', 'Q', 'P', 'N', 'M', 'L', 'K'],
-      'M': ['K', 'L', 'J', 'N', 'P', 'Q', 'R', 'T', 'U', 'W', 'X']
+      ST: ["J", "Z", "I", "H", "G", "F", "E", "D", "C", "B", "A"],
+      FG: ["X", "W", "U", "T", "R", "Q", "P", "N", "M", "L", "K"],
+      M: ["K", "L", "J", "N", "P", "Q", "R", "T", "U", "W", "X"],
     };
 
-    const key = Object.keys(checksums).filter(v => v.includes(firstchar));
+    const key = Object.keys(checksums).filter((v) => v.includes(firstchar));
     if (!key || !key.length) throw new Error(`Unable to find checksum table for "${firstchar}"`);
+
     const lookupKey = key[0] as keyof typeof checksums;
 
     return checksums[lookupKey] as Checksum[];

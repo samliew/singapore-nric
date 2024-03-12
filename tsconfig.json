@@ -1,5 +1,3 @@
-
-
 {
   "compilerOptions": {
     "skipLibCheck": true,
@@ -11,10 +9,17 @@
     "declarationMap": true,
     "sourceMap": true,
     "outDir": "dist",
-    "rootDirs": ["src"],
     "strict": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true
-  }
+    "forceConsistentCasingInFileNames": true,
+    "removeComments": true,
+    "listEmittedFiles": true
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "tests/**/*",
+  ]
 }

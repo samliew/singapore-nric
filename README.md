@@ -5,7 +5,7 @@
 A [Singapore NRIC](https://en.wikipedia.org/wiki/National_Registration_Identity_Card) Validator & Generator class, by [Samuel Liew](https://github.com/samliew)<br>
 This library supports the validation and generation of M-series NRIC numbers.
 
-Looking to do it manually instead? Use these tools on my website: [generate](https://samliew.com/nric-generator) or [validate](https://samliew.com/singapore-nric-validator).
+You can also use these pages on my website to [generate](https://samliew.com/nric-generator) or [validate](https://samliew.com/singapore-nric-validator) manually.
 
 <br>
 
