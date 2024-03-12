@@ -61,7 +61,7 @@ describe('NRIC', () => {
       []
     ];
     invalidTypes.forEach(item => {
-      expect(new NRIC(item).isCorrectFormat).toEqual(false);
+      expect(new NRIC(item as string).isCorrectFormat).toEqual(false);
     });
 
     // Test invalid string formats

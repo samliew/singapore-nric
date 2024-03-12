@@ -8,8 +8,10 @@
   },
   "license": "MIT",
   "type": "module",
-  "main": "src/nric.js",
+  "main": "dist/nric.js",
+  "types": "dist/nric.d.ts",
   "scripts": {
+    "build": "tsc",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "repository": {
@@ -45,10 +47,14 @@
       "node_modules",
       "src"
     ],
-    "transform": {}
+    "transform": {},
+    "preset": "ts-jest"
   },
   "devDependencies": {
+    "@types/jest": "^29.5.12",
     "eslint": "^8.9.0",
-    "jest": "^27.5.1"
+    "jest": "^29.1.2",
+    "ts-jest": "^29.1.2",
+    "typescript": "^5.4.2"
   }
 }

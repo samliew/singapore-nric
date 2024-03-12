@@ -73,7 +73,7 @@ describe('Static Validator', () => {
       'G1166318A',
       new NRIC('M1134985A'),
     ];
-    expect(Validate(invalidItems)).toEqual(false);
+    expect(Validate(invalidItems as (string| NRIC)[])).toEqual(false);
   });
 
 });
